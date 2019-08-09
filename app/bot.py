@@ -16,7 +16,7 @@ def mandar_fruta(usuario):
 	"¡Enorme caricia!", "¡Siéntete libre!", "¡Te recomiendo!",
 	"¡Adelante!", "¡Apoyo!", "¡Sincero aliento!", "¡Importante valor!"]
 	random.shuffle(frases)
-	return frases[0].replace( "!", f" a @{usuario}!") + " " + frases[1] + " " + frases[2]
+	return frases[0].replace( "!", f" a @{usuario}!") + " " + frases[1] + " " + frases[2] + " #CariciaSignificativa"
 
 # Esta es la función que cada N segundos busca menciones en Twitter.
 # Usa la variable since_id, que es la mención más reciente que ya respondió,
