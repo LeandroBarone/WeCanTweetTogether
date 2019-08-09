@@ -12,7 +12,9 @@ logger = logging.getLogger()
 
 # Esta es la función que manda fruta
 def mandar_fruta(usuario):
-	frases = ["¡Satisface!", "¡Te elijo!", "¡Gran caricia!", "¡Siéntete libre!", "¡Te recomiendo!", "¡Enorme caricia!", "¡Mayor caricia!"]
+	frases = ["¡Satisface!", "¡Resuena!", "¡Te elijo!", "¡Gran caricia!",
+	"¡Enorme caricia!", "¡Siéntete libre!", "¡Te recomiendo!",
+	"¡Adelante!", "¡Apoyo!", "¡Sincero aliento!", "¡Importante valor!"]
 	random.shuffle(frases)
 	return frases[0].replace( "!", f" a @{usuario}!") + " " + frases[1] + " " + frases[2]
 
@@ -61,16 +63,20 @@ def main():
 	except Exception:
 		since_id = 1
 
+	last_saved_since_id = since_id
+
 	# Loop infinito.
 	while True:
 		# Buscamos menciones.
 		since_id = check_mentions(api, since_id)
 		
 		# Guardamos el último tweet respondido como descripción del usuario
-		try:
-			api.update_profile(description=since_id)
-		except Exception:
-			logger.exception("Error al guardar la descripción.")
+		if last_saved_since_id != since_id:
+			try:
+				api.update_profile(description=since_id)
+				last_saved_since_id = since_id
+			except Exception:
+				logger.exception("Error al guardar la descripción.")
 		
 		# Esperamos 60 segundos
 		logger.info("Esperando 30 segundos.")
