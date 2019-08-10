@@ -2,9 +2,13 @@ import tweepy
 import logging
 import time
 import random
+import datetime
 
-# create_api() genera un objeto autenticado en Twitter para mandar comandos.
 from config import create_api
+
+# Usamos la fecha y hora como semilla para las funciones random, porque sino
+# cada vez que se inicia el bot, genera los mismos números aleatorios.
+random.seed(datetime.datetime.now())
 
 # Activamos un logging básico.
 logging.basicConfig(level=logging.INFO)
@@ -16,7 +20,7 @@ def mandar_fruta(usuario):
 	"¡Enorme caricia!", "¡Siéntete libre!", "¡Te recomiendo!",
 	"¡Adelante!", "¡Apoyo!", "¡Sincero aliento!", "¡Importante valor!"]
 	random.shuffle(frases)
-	return frases[0].replace( "!", f" a @{usuario}!") + " " + frases[1] + " " + frases[2] + " #CariciaSignificativa"
+	return frases[0].replace("!", f" a @{usuario}!") + " " + frases[1] + " " + frases[2] + " #CariciaSignificativa"
 
 # Esta es la función que cada N segundos busca menciones en Twitter.
 # Usa la variable since_id, que es la mención más reciente que ya respondió,
@@ -53,6 +57,7 @@ def check_mentions(api, since_id):
 
 def main():
 	# Generamos el objeto para interactuar con Twitter.
+	# create_api() está definido en el archivo config.py
 	api = create_api()
 
 	# Cargamos el último tweet respondido desde la descripción del usuario
@@ -78,7 +83,7 @@ def main():
 			except Exception:
 				logger.exception("Error al guardar la descripción.")
 		
-		# Esperamos 60 segundos
+		# Esperamos 30 segundos
 		logger.info("Esperando 30 segundos.")
 		time.sleep(30)
 
